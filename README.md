@@ -8,5 +8,4 @@
 
 ### Summary and Takeway
 
-
 #### Team Member: Lulu, Sophia, Moj, and Samara
