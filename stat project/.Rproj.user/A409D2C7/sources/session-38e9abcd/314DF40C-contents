@@ -1,0 +1,37 @@
+---
+title: "project"
+author: "Sophia Zhang"
+date: "2024-02-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+read.csv("worldometer_data.csv")
+```
+
+```{r}
+boxplot(world$TotalCases)
+```
+
+# TotCases/1M pop VS totdeaths/1M in terms of continents.
+# 
+#
+```{r}
+world <- read.csv("worldometer_data.csv")
+world %>% 
+  filter(is.na(Continent))
+ggplot(data=world, mapping = aes(x=Tot.Cases.1M.pop, y=Deaths.1M.pop, color= Continent)) + 
+  geom_point() + 
+  labs(title = "total cases VS Total death cases in different continent",
+       x = "total cases/ 1m", y = "total deaths/1m") +
+  facet_wrap(~WHO.Region)
+```
