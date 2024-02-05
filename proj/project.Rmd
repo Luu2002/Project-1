@@ -1,37 +1,45 @@
 ---
-title: "project"
-author: "Sophia Zhang"
-date: "2024-02-02"
-output: html_document
+title: "STAT-180 Project-1"
+author: "Sophia Zhang, Mojdeh Motalebi Kashani"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r}
 library(ggplot2)
 library(tidyverse)
 ```
 
+# Q2
+First, we import that dataset and remove and filter-out any rows with missing variables.
 ```{r}
-read.csv("worldometer_data.csv")
+survey <- read.csv("survey.csv")
+survey[survey == ''] <- NA
+survey <- survey %>% drop_na()
 ```
 
+The first contingency table compares the level of exercise and smoking in students. Majority of people never smoke. Also, even among those that smoke, most exercise sometimes or frequently.
 ```{r}
-boxplot(world$TotalCases)
+table(data.frame("Exer" = survey$Exer, "Smoke" = survey$Smoke))
 ```
 
-# TotCases/1M pop VS totdeaths/1M in terms of continents.
-# 
-#
+The second contingency table compares writing hand with the upper hand when clapping. Most students are right-handed and most right-handed students clap with their right hand on top.
 ```{r}
-world <- read.csv("worldometer_data.csv")
-world %>% 
-  filter(is.na(Continent))
-ggplot(data=world, mapping = aes(x=Tot.Cases.1M.pop, y=Deaths.1M.pop, color= Continent)) + 
-  geom_point() + 
-  labs(title = "total cases VS Total death cases in different continent",
-       x = "total cases/ 1m", y = "total deaths/1m") +
-  facet_wrap(~WHO.Region)
+table(data.frame("W.Hnd" = survey$W.Hnd, "Clap" = survey$Clap))
+```
+
+The first graph is a boxplot of student heights. With a median of 171, a max of 200, and a min of 150.  
+```{r}
+boxplot(survey$Height, main = "Student Height")
+```
+
+The second graph is a histogram of student ages. Most people are under 20, vast majorty of people are under 25, and the oldest people are over 70.
+```{r}
+hist(survey$Age, main = "Student Age")
+```
+
+Finally, you can see the summary statistics for 2 variables. Student pulse rate(beats per minute) and student writing hand span(distance from tip of thumb to tip of little finger of spread hand).
+```{r}
+summary(survey$Pulse)
+summary(survey$Wr.Hnd)
 ```
