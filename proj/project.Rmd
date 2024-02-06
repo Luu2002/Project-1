@@ -45,9 +45,9 @@ summary(survey$Wr.Hnd)
 
 # Q4
 ## First multivariate visualization
-Check how does `Sex` influence the relationship between `Wr.Hnd` and `Height` (the units are all centimeters), where `Wr.Hnd` represents the distance of span from tip of thumb to little finger of student's writing hand.
-By expecting `height` as the explanatory variable and `Wr.Hnd` as the response variable, we are looking for the relationship if student with higher heights would have larger writing span.
-By drawing the regression lines to have a clear picture of the analysis, without any significant difference between male and female students. However, both of male and female students are all have the similar positive scatterplotss, where the higher of student's height, the larger their span of writing hands would be.
+Check how does `Sex` influence the relationship between `Wr.Hnd` and `Height` (the units are all centimeters), where `Wr.Hnd` represents the distance of span from tip of thumb to little finger of student's writing hand.\
+By expecting `Height` as the explanatory variable and `Wr.Hnd` as the response variable, we are looking for the relationship if student with higher heights would have larger writing span.
+By drawing the regression lines to have a clear picture of the analysis, without any significant difference between male and female students. However, both of male and female students are all have the similar positive scatterplots, where the higher of student's height, the larger their span of writing hands would be.
 ```{r}
 ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
   geom_point(aes(color = Sex), size = 2) +
@@ -56,4 +56,19 @@ ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
        x = "Height of student (cm)", y = "Span of writing hand (cm)")
 ```
 
+## Second multivariate visualization
+Based on the data analysis previously, we have noticed that majority of participants' age range from 16 to 21, out main focus here is to see the tendencies of majority people, by filtering out participants who are not in this range would help us see the main focus of study better.\
+Here, we check how does `Exer` influence the relationship between `Age` and `Pulse`, where `Exer` represents the frequency that students exercise and `Pulse` represents their pulse beats per minute.
+Because we want to looking for the meaningful relationship of whether the increase of age would influence students' pulse rate in terms of how often they exercise. Therefore, we let `Age` as the explanatory variable and `Pulse` as the response variable.\
+Unlike previous visualization, we separate our graph into three small group by `Exer` to have better looking into the result. With the regression lines, we have noticed the significant difference of `Age` and `Pulse` between students who have never do exercises (none in `Exer`) with students who do exercises (frequently or some in `Exer`). With students who never do exercises, they have positive scatterplots, while other students who do exercises don't have significant relationships. Equivalently to say, students who don't do exercises, as the age grow, their heart pulse tend to beat faster per minute; and students who do exercises frequently or sometimes, their heart beat to age don't have significant relationship (for students who do **some** exercises have little negative scatterplot, as the age grows, their heart pulse would descrease, but not significant comparing to students who have **none** exercises.)
+```{r}
+library(dplyr)
+age_range <- survey %>% filter(between(Age, 16, 21))
+age_range
+ggplot(age_range, aes(x = Age, y = Pulse)) +
+  geom_point(aes(color = Exer), size = 2) +
+  geom_smooth(aes(color = Exer), method = "lm") +
+  facet_grid(.~Exer) +
+  labs(title = "Students' age influence students' pulse by how often they exercise",
+       x = "Age of student", y = "Pulse rate of students (per min)")
 ```
