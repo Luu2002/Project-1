@@ -30,12 +30,18 @@ table(data.frame("W.Hnd" = survey$W.Hnd, "Clap" = survey$Clap))
 
 The first graph is a boxplot of student heights. With a median of 171, a max of 200, and a min of 150.  
 ```{r}
-boxplot(survey$Height, main = "Student Height")
+boxplot(survey$Height, main = "Student Height Boxplot",
+        xlab = "Height(cm)",
+        horizontal = TRUE,
+        notch = TRUE)
 ```
 
-The second graph is a histogram of student ages. Most people are under 20, vast majorty of people are under 25, and the oldest people are over 70.
+The second graph is a histogram of student ages. Most people are under 20, vast majority of people are under 25, and the oldest people are over 70.
 ```{r}
-hist(survey$Age, main = "Student Age")
+hist(survey$Age,
+     breaks=20,
+     main = "Student Age Histogram",
+     xlab = "Age")
 ```
 
 Finally, you can see the summary statistics for 2 variables. Student pulse rate(beats per minute) and student writing hand span(distance from tip of thumb to tip of little finger of spread hand).
@@ -44,7 +50,7 @@ summary(survey$Pulse)
 summary(survey$Wr.Hnd)
 ```
 
-# Q4
+# Q3
 ## First multivariate visualization
 Check how does `Sex` influence the relationship between `Wr.Hnd` and `Height` (the units are all centimeters), where `Wr.Hnd` represents the distance of span from tip of thumb to little finger of student's writing hand.\
 By expecting `Height` as the explanatory variable and `Wr.Hnd` as the response variable, we are looking for the relationship if student with higher heights would have larger writing span.
