@@ -42,6 +42,7 @@ Finally, you can see the summary statistics for 2 variables. Student pulse rate(
 ```{r}
 summary(survey$Pulse)
 summary(survey$Wr.Hnd)
+```
 
 # Q4
 ## First multivariate visualization
