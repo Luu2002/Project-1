@@ -48,7 +48,7 @@ summary(survey$Wr.Hnd)
 Check how does `Sex` influence the relationship between `Wr.Hnd` and `Height` (the units are all centimeters), where `Wr.Hnd` represents the distance of span from tip of thumb to little finger of student's writing hand.
 By expecting `height` as the explanatory variable and `Wr.Hnd` as the response variable, we are looking for the relationship if student with higher heights would have larger writing span.
 By drawing the regression lines to have a clear picture of the analysis, without any significant difference between male and female students. However, both of male and female students are all have the similar positive scatterplotss, where the higher of student's height, the larger their span of writing hands would be.
-```{r}x
+```{r}
 ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
   geom_point(aes(color = Sex), size = 2) +
   geom_smooth(aes(color = Sex), method = "lm") +
