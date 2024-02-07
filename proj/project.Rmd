@@ -8,6 +8,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
+library(dplyr)
+library(hrbrthemes)
+library(geomtextpath)
 ```
 
 # Q2
@@ -28,12 +31,15 @@ The second contingency table compares writing hand with the upper hand when clap
 table(data.frame("W.Hnd" = survey$W.Hnd, "Clap" = survey$Clap))
 ```
 
-The first graph is a boxplot of student heights. With a median of 171, a max of 200, and a min of 150.  
+The first graph is a boxplot of student heights(Both overall and also divided by sex). There's a median of 171, a max of 200, and a min of 150 for the entire population. Also male students are, on average, taller compared to female students. Also it can be seen that the tallest person is male and shortest person is female.
 ```{r}
-boxplot(survey$Height, main = "Student Height Boxplot",
-        xlab = "Height(cm)",
-        horizontal = TRUE,
-        notch = TRUE)
+males <- survey %>% filter(Sex == "Male")
+females <- survey %>% filter(Sex == "Female")
+heights <- data.frame("All Students" = survey$Height,
+                      "Male Students" = males$Height,
+                      "Female Students" = females$Height)
+
+boxplot(heights, main = "Student Height Boxplot", ylab = "Height(cm)")
 ```
 
 The second graph is a histogram of student ages. Most people are under 20, vast majority of people are under 25, and the oldest people are over 70.
@@ -59,7 +65,7 @@ However, both of male and female students are all have the similar positive corr
 ```{r}
 ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
   geom_point(aes(color = Sex), size = 2) +
-  geom_smooth(aes(color = Sex), method = "lm") +
+  geom_smooth(aes(color = Sex), formula = y ~ x, method = "lm") +
   labs(title = "Span of Writing Hands Variers with Heights by Sex",
        x = "Height of Students (cm)", y = "Span of Writing Hands (cm)")
 ```
@@ -70,13 +76,13 @@ Here, we check how does `Exer` influence the relationship between `Age` and `Pul
 Because we want to looking for the meaningful relationship of whether the increase of age would influence students' pulse rate in terms of how often they exercise. Therefore, we let `Age` as the explanatory variable and `Pulse` as the response variable.\
 Unlike previous visualization, we separate our graph into three small group by `Exer` to have better looking into the result. We also use different color to distinguish `None`, `Freq`, and `some` for Exercises: by using _green_ for students who do exercises frequently, _orange_ for students who don't do exercises, and _purple_ for students who sometimes do exercises. With the regression lines, we have noticed the significant difference of `Age` and `Pulse` between students who have never do exercises (none in `Exer`) with students who do exercises (frequently or some in `Exer`). With students who never do exercises, they have positive correlation, while other students who do exercises don't have significant relationships. Equivalently to say, students who don't do exercises, as the age grow, their heart pulse tend to beat faster per minute; and students who do exercises frequently or sometimes, their heart beat to age don't have significant relationship (for students who do **some** exercises have little negative correlation, as the age grows, their heart pulse would decrease, but not significant comparing to students who have **none** exercises.)
 ```{r}
-library(dplyr)
 age_range <- survey %>% filter(between(Age, 16, 21))
-age_range
-library(hrbrthemes)
+
 plt <- ggplot(age_range, aes(x = Age, y = Pulse)) +
   geom_point(aes(color = Exer), size = 3, color = "#69b3a2", pch = 18) +
-  geom_smooth(aes(color = Exer), method = "lm", se=FALSE, fullrange=TRUE) +
+  geom_smooth(aes(color = Exer),
+              formula = y ~ x, method = "lm",
+              se=FALSE, fullrange=TRUE) +
   theme_classic() +
   facet_grid(.~Exer) +
   labs(title = "Pulse Rate by Age and Frequency of Exercises",
@@ -91,7 +97,6 @@ By considering `Wr.Hnd` as the explanatory variable and `NW.Hnd` as the response
 Now, by looking at our scatterplot, with the strong positive correlation between span of writing hands and non-writing hands, we can observe that the larger span of student's writing hand, the larger span of student's non-writing hand would become. By having overlapping points between 16.5cm to 19.5cm for writing hands' span, it means majority of students (both female and male students) lie in the range. With some female students have significant smaller span of writing and non-writing hands as the outliers.\
 There are significant cluster for male participants, all female students' span of their writing and non-writing hands are below 21cm, with the significant cluster of male students' data lie above 21cm. We can say that male students are generally have larger span of writing and non-writing hands comparing to female students.
 ```{r}
-library(geomtextpath)
 graph <- ggplot(survey, aes(x = Wr.Hnd, y = NW.Hnd, color = Sex)) +
   geom_point() +
   geom_labelsmooth(aes(label = Sex), fill = "pink", 
