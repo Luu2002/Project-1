@@ -1,7 +1,7 @@
 #Q1
 First step, find the name of all the variables inside of the list. 
 ```{r setup, include=TRUE}
-survey$rownames <- NULL ##This removes the first column which is just the number of rows. 
+survey$rownames <- NULL # This removes the first column which is just the number of rows. 
 names(survey)
 ```
 Now that we have all the variables, let's show off what kind of variables they are.

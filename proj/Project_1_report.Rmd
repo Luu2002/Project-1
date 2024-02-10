@@ -3,7 +3,9 @@ title: "Project 1"
 output: pdf_document
 date: "2024-02-09"
 ---
-Group Member: Lulu Chen, Mojdeh Motalebi Kashani, Sophia Zhang, Samara Gordon
+Group Member: Lulu Chen, Mojdeh Motalebi Kashani, Sophia Zhang, Samara Gordon\
+
+Contribute: Lulu (25%), Mojdeh (25%), Sophia(25%), Samara(25%)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -15,29 +17,66 @@ library(geomtextpath)
 ```
 
 # Question 1: Describe the Dataset
+Find the name of all the variables in data-set. 
+```{r}
+# read csv file, remove the column "rownames", and 
+# retrieves the names of the remaining columns
+survey <- read.csv("survey.csv")
+survey$rownames <- NULL 
+names(survey)
+```
+Now that we have all the variables, let's show off what kind of variables they are.
+Sex: The sex of a student, with the options of female and male. This is a categorical variable, and it's a binary variable since it's only between two options. 
 
+Non-writing Hand: This is the span of the non writing hand from tip of the thumb to the tip of the pinkie in centimeters. This is a quantitative variable, and it's continuous since it's measured of a non finite value. 
+
+Writing Hand: This is the span of the writing hand from tip of the thumb to the tip of the pinkie in centimeters. This is a quantitative variable, and it's continuous since it's measured of a non finite value.
+
+Fold: Folding your hands, with the options being right on left, left on right, or neither. This is a categorical variable, and it's a nominal since there is no real rank or order between the groups.
+
+Pulse: This is beats per minute of students. This is a quantitative variable, and it's discrete since this is an integer count of individual values. 
+
+Top hand of clap: When clapping one hand is on top, this records whether the hand is the right, the left, or neither. This is a categorical variable, and it's nominal since there is no real rank or order between the groups.
+
+Exercise: The amount that a student exercises, with the options being frequently, some, and none. This is a categorical variable, and it's an ordinal variable since the groups can be ranked inside of a specific order of least amount of exercise to greatest. 
+
+Smoke: The amount that a student smokes, which varies between never, regular, occasionally, and heavy. This is a categorical variable, and it's ordinal since the groups can be ranked inside of a specific order of least smoking to greatest. 
+
+Height: This is the height of the student in centimeters. It is a quantitative variable, and it is continuous since it measures in non infinite values and it's measurable. 
+
+Metric versus Imperial: This variable represents whether a student represents their height using the metric system or using the imperial system. This is a categorical variable, and it's binary as there's only two options. 
+
+Age: This is the age of the student in years. It is a quantitative variable, and it is continuous since it measures in non infinite values and it's measurable. 
+
+In question three, we decided to use multiple data sets within the given survey to better suit out needs and therefore we have multiple outcome variables. For the first graph, we chose to have how sex influences the relationship between the writing hand span and height, with the outcome variable being the span of the hand in centimeters. In the second visualization, pulse rate is the outcome variable with age and the frequency of exercise being the outcome variable. In the last graph, the hand span between writing hand and non writing hand are compared between the sexes. The outcome variable in that case is the hand span of non writing hand, since that is what is being measured. 
 
 # Question 2: Exploratory and Descriptive Data Analysis (EDA)
 
-First, we import that data-set and remove and filter-out any rows with missing variables.
+Remove and filter-out any rows with missing variables.
 ```{r}
-survey <- read.csv("survey.csv")
+# replaces empty strings in the data frame with NA and 
+# then removes all rows containing any NA values
 survey[survey == ''] <- NA
 survey <- survey %>% drop_na()
 ```
 
 The first contingency table compares the level of exercise and smoking in students. Majority of people never smoke. Also, even among those that smoke, most exercise sometimes or frequently.
 ```{r}
+# create table from Exer and Smoke columns of the data frame
 table(data.frame("Exer" = survey$Exer, "Smoke" = survey$Smoke))
 ```
 
 The second contingency table compares writing hand with the upper hand when clapping. Most students are right-handed and most right-handed students clap with their right hand on top.
 ```{r}
+# create table from W.Hnd and Clap columns of the data
 table(data.frame("W.Hnd" = survey$W.Hnd, "Clap" = survey$Clap))
 ```
 
 The first graph is a box plot of student heights(Both overall and also divided by sex). There's a median of 171, a max of 200, and a min of 150 for the entire population. Also male students are, on average, taller compared to female students. Also it can be seen that the tallest person is male and shortest person is female.
 ```{r}
+# filters the data to create two subsets for male and female,
+# then constructs a new data frame containing the height and 
+# generate a boxplot comparing the heights among those three groups.
 males <- survey %>% filter(Sex == "Male")
 females <- survey %>% filter(Sex == "Female")
 heights <- data.frame("All Students" = survey$Height,
@@ -49,6 +88,7 @@ boxplot(heights, main = "Student Height Boxplot", ylab = "Height(cm)")
 
 The second graph is a histogram of student ages. Most people are under 20, vast majority of people are under 25, and the oldest people are over 70.
 ```{r}
+# create histogram of age using 20 bins to distribute the data
 hist(survey$Age,
      breaks=20,
      main = "Student Age Histogram",
@@ -57,6 +97,7 @@ hist(survey$Age,
 
 Finally, you can see the summary statistics for 2 variables. Student pulse rate(beats per minute) and student writing hand span(distance from tip of thumb to tip of little finger of spread hand).
 ```{r}
+# provides summary for Pulse and Writing Hand
 summary(survey$Pulse)
 summary(survey$Wr.Hnd)
 ```
@@ -68,6 +109,9 @@ Check how does `Sex` influence the relationship between `Wr.Hnd` and `Height` (t
 By expecting `Height` as the explanatory variable and `Wr.Hnd` as the response variable, we are looking for the relationship if student with higher heights would have larger writing span. By using different color to distinguish between gender: _red_ represents female and _green_ represents male. By having regression line shade could give clear visualization.By drawing the regression lines to have a clear picture of the analysis, without any significant difference between male and female students. Since female students are shorter than male students, and the height of male students are varies more than female students.\
 However, both of male and female students are all have the similar positive correlation, where the higher of student's height, the larger their span of writing hands would be.
 ```{r}
+# create a scatter plot of Height vs Writing Hand and adds
+# linear regression lines for each sex to show the trend 
+# between those two
 ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
   geom_point(aes(color = Sex), size = 2) +
   geom_smooth(aes(color = Sex), formula = y ~ x, method = "lm") +
@@ -77,10 +121,16 @@ ggplot(survey, aes(x = Height, y = Wr.Hnd)) +
 
 ## Second multivariate visualization
 Based on the data analysis previously, we have noticed that majority of participants' age range from 16 to 21, out main focus here is to see the tendencies of majority people, by filtering out participants who are not in this range would help us see the main focus of study better.\
-Here, we check how does `Exer` influence the relationship between `Age` and `Pulse`, where `Exer` represents the frequency that students exercise and `Pulse` represents their pulse beats per minute.
-Because we want to looking for the meaningful relationship of whether the increase of age would influence students' pulse rate in terms of how often they exercise. Therefore, we let `Age` as the explanatory variable and `Pulse` as the response variable.\
-Unlike previous visualization, we separate our graph into three small group by `Exer` to have better looking into the result. We also use different color to distinguish `None`, `Freq`, and `some` for Exercises: by using _green_ for students who do exercises frequently, _orange_ for students who don't do exercises, and _purple_ for students who sometimes do exercises. With the regression lines, we have noticed the significant difference of `Age` and `Pulse` between students who have never do exercises (none in `Exer`) with students who do exercises (frequently or some in `Exer`). With students who never do exercises, they have positive correlation, while other students who do exercises don't have significant relationships. Equivalently to say, students who don't do exercises, as the age grow, their heart pulse tend to beat faster per minute; and students who do exercises frequently or sometimes, their heart beat to age don't have significant relationship (for students who do **some** exercises have little negative correlation, as the age grows, their heart pulse would decrease, but not significant comparing to students who have **none** exercises.)
+
+Here, we check how does `Exer` influence the relationship between `Age` and `Pulse`, where `Exer` represents the frequency that students exercise and `Pulse` represents their pulse beats per minute. Because we want to looking for the meaningful relationship of whether the increase of age would influence students' pulse rate in terms of how often they exercise. Therefore, we let `Age` as the explanatory variable and `Pulse` as the response variable.\
+
+Unlike previous visualization, we separate our graph into three small group by `Exer` to have better looking into the result. We also use different color to distinguish `None`, `Freq`, and `some` for Exercises: by using _green_ for students who do exercises frequently, _orange_ for students who don't do exercises, and _purple_ for students who sometimes do exercises. With the regression lines, we have noticed the significant difference of `Age` and `Pulse` between students who have never do exercises (none in `Exer`) with students who do exercises (frequently or some in `Exer`). With students who never do exercises, they have positive correlation, while other students who do exercises don't have significant relationships.\
+
+Equivalently to say, students who don't do exercises, as the age grow, their heart pulse tend to beat faster per minute; and students who do exercises frequently or sometimes, their heart beat to age don't have significant relationship (for students who do **some** exercises have little negative correlation, as the age grows, their heart pulse would decrease, but not significant comparing to students who have **none** exercises.)
 ```{r}
+# create a plot shows the relationship between students 
+# age and pulse rates, exercise frequency, using filtered
+# data for ages 16 to 21
 age_range <- survey %>% filter(between(Age, 16, 21))
 
 plt <- ggplot(age_range, aes(x = Age, y = Pulse)) +
@@ -96,12 +146,19 @@ plt + scale_color_brewer(palette = "Dark2")
 ```
 
 ## Third multivariate visualization
+
 Here, we want to check the relationship between `Wr.Hnd` and `NW.Hnd` varies between `Sex` - female and male students at the University of Adelaide, which `Wr.Hnd` represents the span of student's writing hand in centimeters and `NW.Hnd` represents the span of student's non-writing hand in centimeters.\
+
 The graph below contains different significant data, each dot represents each student's data, and they are colored in _green_ and _orange_ color to distinguish between gender (with orange dots represent male students and green dots represent female students).\ 
+
 By considering `Wr.Hnd` as the explanatory variable and `NW.Hnd` as the response variable because we are looking for how the span size of biological (right-hand or left-hand) hands correlates to the span of non-writing hands.\
-Now, by looking at our scatterplot, with the strong positive correlation between span of writing hands and non-writing hands, we can observe that the larger span of student's writing hand, the larger span of student's non-writing hand would become. By having overlapping points between 16.5cm to 19.5cm for writing hands' span, it means majority of students (both female and male students) lie in the range. With some female students have significant smaller span of writing and non-writing hands as the outliers.\
+
+Now, by looking at our scatter plot, with the strong positive correlation between span of writing hands and non-writing hands, we can observe that the larger span of student's writing hand, the larger span of student's non-writing hand would become. By having overlapping points between 16.5cm to 19.5cm for writing hands' span, it means majority of students (both female and male students) lie in the range. With some female students have significant smaller span of writing and non-writing hands as the outliers.\
+
 There are significant cluster for male participants, all female students' span of their writing and non-writing hands are below 21cm, with the significant cluster of male students' data lie above 21cm. We can say that male students are generally have larger span of writing and non-writing hands comparing to female students.
 ```{r}
+# create plot the show the relationship between the
+# span of writing hand and non-writing hand 
 graph <- ggplot(survey, aes(x = Wr.Hnd, y = NW.Hnd, color = Sex)) +
   geom_point() +
   geom_labelsmooth(aes(label = Sex), fill = "pink", 
@@ -114,3 +171,10 @@ graph + scale_color_brewer(palette = "Dark2")
 
 # Question 4: Summary
 Throughout this project, we as a team gained a deeper understanding of R in data visualization and the important role that inferential statistics, especially regression analysis, play in modeling and predicting based data development. The exploratory aspect of this work was particularly illuminating, allowing us to explore the complexities of multivariate data and to identify complex relationships between variables This process has not been enabled by us only using it to identify and explain patterns in data sets The main takeaway was that we maximized effective data measurement and that thoughtful analysis could turn random data into complex information informing and inspiring, and bridging the gap between complex data ideas and those that stand to benefit.
+
+# References
+Student Survey Datasets\
+(https://vincentarelbundock.github.io/Rdatasets/articles/data.html)
+
+Student Survey CSV\
+(survey.csv)
