@@ -173,8 +173,8 @@ graph + scale_color_brewer(palette = "Dark2")
 Throughout this project, we as a team gained a deeper understanding of R in data visualization and the important role that inferential statistics, especially regression analysis, play in modeling and predicting based data development. The exploratory aspect of this work was particularly illuminating, allowing us to explore the complexities of multivariate data and to identify complex relationships between variables This process has not been enabled by us only using it to identify and explain patterns in data sets The main takeaway was that we maximized effective data measurement and that thoughtful analysis could turn random data into complex information informing and inspiring, and bridging the gap between complex data ideas and those that stand to benefit.
 
 # References
-Student Survey Datasets\
+Student Survey Dataset Guide\
 (https://vincentarelbundock.github.io/Rdatasets/articles/data.html)
 
-Student Survey CSV\
-(survey.csv)
+Student Survey Dataset CSV\
+(https://vincentarelbundock.github.io/Rdatasets/csv/MASS/survey.csv)
