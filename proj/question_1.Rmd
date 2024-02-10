@@ -1,10 +1,13 @@
 #Q1
 First step, find the name of all the variables inside of the list. 
 ```{r setup, include=TRUE}
+survey <- read.csv("survey.csv")
 survey$rownames <- NULL ##This removes the first column which is just the number of rows. 
 names(survey)
 ```
+
 Now that we have all the variables, let's show off what kind of variables they are.
+
 Sex: The sex of a student, with the options of female and male. This is a categorical variable, and it's a binary variable since it's only between two options. 
 
 Nonwriting Hand: This is the span of the non writing hand from tip of the thumb to the tip of the pinkie in centimeters. This is a quantitative variable, and it's continuous since it's measured of a non finite value. 
@@ -26,6 +29,8 @@ Height: This is the height of the student in centimeters. It is a quantitative v
 Metric versus Imperial: This variable represents whether a student represents their height using the metric system or using the imperial system. This is a categorical variable, and it's binary as there's only two options. 
 
 Age: This is the age of the student in years. It is a quantitative variable, and it is continuous since it measures in non infinite values and it's measurable. 
-span of writing hands, one compare it with span of non-writing hand and one compare it with height of students.
-however, another plot i compared between pulse and age in terms of exercise frequency
-The outcome variable for question three for the first graph is writing hand span, the second graph it's pulse rate, and the third graph is hand span. 
+
+In question three, we decided to use multiple data sets within the given survey to better suit out needs and therefore we have multiple outcome variables. 
+For the first graph, we chose to have how sex influences the relationship between the writing hand span and height, with the outcome variable being the span of the hand in centimeters. 
+In the second visualization, the graph is the difference in pulse rate between ages and the frquency the subjects exercised. Pulse rate is the outcome variable since that is what's being affected. 
+In the last graph, the hand span between writing hand and non writing hand are compared between the sexes. The outcome variable in that case is the hand span of non writing hand. 

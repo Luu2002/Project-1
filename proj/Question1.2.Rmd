@@ -1,0 +1,36 @@
+#Q1
+First step, find the name of all the variables inside of the list. 
+```{r setup, include=TRUE}
+survey <- read.csv("survey.csv")
+survey$rownames <- NULL ##This removes the first column which is just the number of rows. 
+names(survey)
+```
+
+Now that we have all the variables, let's show off what kind of variables they are.
+
+Sex: The sex of a student, with the options of female and male. This is a categorical variable, and it's a binary variable since it's only between two options. 
+
+Nonwriting Hand: This is the span of the non writing hand from tip of the thumb to the tip of the pinkie in centimeters. This is a quantitative variable, and it's continuous since it's measured of a non finite value. 
+
+Writing Hand: This is the span of the writing hand from tip of the thumb to the tip of the pinkie in centimeters. This is a quantitative variable, and it's continuous since it's measured of a non finite value.
+
+Fold: Folding your hands, with the options being right on left, left on right, or neither. This is a categorical variable, and it's a nominal since there is no real rank or order between the groups.
+
+Pulse: This is beats per minute of students. This is a quantitative variable, and it's discrete since this is an integer count of individual values. 
+
+Top hand of clap: When clapping one hand is on top, this records whether the hand is the right, the left, or neither. This is a categorical variable, and it's nominal since there is no real rank or order between the groups.
+
+Exercise: The amount that a student exercises, with the options being frequently, some, and none. This is a categorical variable, and it's an ordinal variable since the groups can be ranked inside of a specific order of least amount of exercise to greatest. 
+
+Smoke: The amount that a student smokes, which varies between never, regular, occasionally, and heavy. This is a categorical variable, and it's ordinal since the groups can be ranked inside of a specific order of least smoking to greatest. 
+
+Height: This is the height of the student in centimeters. It is a quantitative variable, and it is continuous since it measures in non infinite values and it's measurable. 
+
+Metric versus Imperial: This variable represents whether a student represents their height using the metric system or using the imperial system. This is a categorical variable, and it's binary as there's only two options. 
+
+Age: This is the age of the student in years. It is a quantitative variable, and it is continuous since it measures in non infinite values and it's measurable. 
+
+In question three, we decided to use multiple data sets within the given survey to better suit out needs and therefore we have multiple outcome variables. 
+For the first graph, we chose to have how sex influences the relationship between the writing hand span and height, with the outcome variable being the span of the hand in centimeters. 
+In the second visualization, the graph is the difference in pulse rate between ages and the frquency the subjects exercised. Pulse rate is the outcome variable since that is what's being affected. 
+In the last graph, the hand span between writing hand and non writing hand are compared between the sexes. The outcome variable in that case is the hand span of non writing hand. 
